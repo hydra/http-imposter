@@ -7,8 +7,8 @@ class HttpHeaderSpec extends Specification {
     def 'equals and hashcode'() {
     
         given:
-            HttpHeader header1 = new HttpHeader(name1, value1)
-            HttpHeader header2 = new HttpHeader(name2, value2)
+            DefaultHttpHeader header1 = new DefaultHttpHeader(name1, value1)
+            DefaultHttpHeader header2 = new DefaultHttpHeader(name2, value2)
         
         expect:
             header1.equals(header2) == result
@@ -25,7 +25,7 @@ class HttpHeaderSpec extends Specification {
     def 'equals with same instance'() {
         
         given:
-            HttpHeader httpHeader = new HttpHeader('Hello', 'world')
+            DefaultHttpHeader httpHeader = new DefaultHttpHeader('Hello', 'world')
         
         expect:
             httpHeader.equals(httpHeader)
@@ -34,7 +34,7 @@ class HttpHeaderSpec extends Specification {
     def 'equals with object of another type'() {
         
         given:
-            HttpHeader httpHeader = new HttpHeader('Hello', 'world')
+            DefaultHttpHeader httpHeader = new DefaultHttpHeader('Hello', 'world')
             String value = 'qwerty'
         
         expect:
@@ -44,7 +44,7 @@ class HttpHeaderSpec extends Specification {
     def 'to string'() {
         
         given:
-            HttpHeader httpHeader = new HttpHeader('Some-Name', 'some-value')
+            DefaultHttpHeader httpHeader = new DefaultHttpHeader('Some-Name', 'some-value')
             
         expect:
             httpHeader.toString() == 'Some-Name: some-value'
@@ -54,10 +54,10 @@ class HttpHeaderSpec extends Specification {
         
         given:
             List<HttpHeader> headers = [
-                    new HttpHeader('Content-Type', 'text/plain'),
-                    new HttpHeader('content-type', 'text/plain'),
-                    new HttpHeader('Accept', 'application/json'),
-                    new HttpHeader('Accept', 'text/plain')
+                    new DefaultHttpHeader('Content-Type', 'text/plain'),
+                    new DefaultHttpHeader('content-type', 'text/plain'),
+                    new DefaultHttpHeader('Accept', 'application/json'),
+                    new DefaultHttpHeader('Accept', 'text/plain')
             ]
         
         when:

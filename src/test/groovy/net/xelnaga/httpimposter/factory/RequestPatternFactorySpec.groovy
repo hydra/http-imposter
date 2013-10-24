@@ -1,8 +1,8 @@
 package net.xelnaga.httpimposter.factory
 
 import net.xelnaga.httpimposter.filter.HttpHeaderFilter
-import net.xelnaga.httpimposter.model.HttpHeader
 import net.xelnaga.httpimposter.model.RequestPattern
+import net.xelnaga.httpimposter.model.DefaultHttpHeader
 import org.springframework.mock.web.MockHttpServletRequest
 import spock.lang.Specification
 
@@ -36,9 +36,9 @@ class RequestPatternFactorySpec extends Specification {
             RequestPattern requestPattern = factory.fromHttpRequest(httpRequest)
 
         then:
-            1 * mockHttpHeaderFilter.isMatchable(new HttpHeader('Content-Type', 'text/banana')) >> true
-            1 * mockHttpHeaderFilter.isMatchable(new HttpHeader('Pineapple', 'Passionfruit')) >> true
-            1 * mockHttpHeaderFilter.isMatchable(new HttpHeader('Durian', 'Stinky')) >> false
+            1 * mockHttpHeaderFilter.isMatchable(new DefaultHttpHeader('Content-Type', 'text/banana')) >> true
+            1 * mockHttpHeaderFilter.isMatchable(new DefaultHttpHeader('Pineapple', 'Passionfruit')) >> true
+            1 * mockHttpHeaderFilter.isMatchable(new DefaultHttpHeader('Durian', 'Stinky')) >> false
             0 * _._
 
         and:
@@ -46,8 +46,8 @@ class RequestPatternFactorySpec extends Specification {
                     uri: '/fruity/pineapple',
                     method: 'mango',
                     headers: [
-                            new HttpHeader('Content-Type', 'text/banana'),
-                            new HttpHeader('Pineapple', 'Passionfruit')
+                            new DefaultHttpHeader('Content-Type', 'text/banana'),
+                            new DefaultHttpHeader('Pineapple', 'Passionfruit')
                     ],
                     body: 'qwerty'
             )
@@ -70,9 +70,9 @@ class RequestPatternFactorySpec extends Specification {
             RequestPattern requestPattern = factory.fromHttpRequest(httpRequest)
 
         then:
-            1 * mockHttpHeaderFilter.isMatchable(new HttpHeader('Content-Type', 'text/banana')) >> true
-            1 * mockHttpHeaderFilter.isMatchable(new HttpHeader('Pineapple', 'Passionfruit')) >> true
-            1 * mockHttpHeaderFilter.isMatchable(new HttpHeader('Durian', 'Stinky')) >> false
+            1 * mockHttpHeaderFilter.isMatchable(new DefaultHttpHeader('Content-Type', 'text/banana')) >> true
+            1 * mockHttpHeaderFilter.isMatchable(new DefaultHttpHeader('Pineapple', 'Passionfruit')) >> true
+            1 * mockHttpHeaderFilter.isMatchable(new DefaultHttpHeader('Durian', 'Stinky')) >> false
             0 * _._
 
         and:
@@ -80,8 +80,8 @@ class RequestPatternFactorySpec extends Specification {
                     uri: '/fruity/pineapple?peaches=true&oranges=false',
                     method: 'mango',
                     headers: [
-                            new HttpHeader('Content-Type', 'text/banana'),
-                            new HttpHeader('Pineapple', 'Passionfruit')
+                            new DefaultHttpHeader('Content-Type', 'text/banana'),
+                            new DefaultHttpHeader('Pineapple', 'Passionfruit')
                     ],
                     body: 'qwerty'
             )

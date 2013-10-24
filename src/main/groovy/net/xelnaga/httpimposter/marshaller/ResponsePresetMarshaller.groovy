@@ -1,7 +1,7 @@
 package net.xelnaga.httpimposter.marshaller
 
 import net.xelnaga.httpimposter.model.ByteArrayResponsePreset
-import net.xelnaga.httpimposter.model.HttpHeader
+import net.xelnaga.httpimposter.model.DefaultHttpHeader
 
 import org.apache.commons.codec.binary.Base64
 import net.xelnaga.httpimposter.model.ResponsePreset
@@ -13,7 +13,7 @@ class ResponsePresetMarshaller {
         ResponsePreset imposterResponse = makeResponsePresetFromType(json)
 
         json.headers.each { Map header ->
-            imposterResponse.headers << new HttpHeader(header.name, header.value)
+            imposterResponse.headers << new DefaultHttpHeader(header.name, header.value)
         }
 
         return imposterResponse

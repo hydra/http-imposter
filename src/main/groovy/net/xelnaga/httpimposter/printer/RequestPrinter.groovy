@@ -2,6 +2,7 @@ package net.xelnaga.httpimposter.printer
 
 import net.xelnaga.httpimposter.model.HttpHeader
 import net.xelnaga.httpimposter.model.RequestPattern
+import net.xelnaga.httpimposter.model.DefaultHttpHeader
 
 class RequestPrinter {
 
@@ -12,7 +13,7 @@ class RequestPrinter {
         if (request.headers.size() > 0) {
             output += '\n'
             request.headers.each { HttpHeader header ->
-                output += header.name.toLowerCase() + ': ' + header.value + '\n'
+                output += header.toString() + '\n'
             }
         }
 

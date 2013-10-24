@@ -2,6 +2,7 @@ package net.xelnaga.httpimposter.factory
 
 import net.xelnaga.httpimposter.filter.HttpHeaderFilter
 import net.xelnaga.httpimposter.filter.PassThroughFilter
+import net.xelnaga.httpimposter.model.DefaultHttpHeader
 import net.xelnaga.httpimposter.model.HttpHeader
 import net.xelnaga.httpimposter.model.RequestPattern
 
@@ -26,7 +27,7 @@ class RequestPatternFactory {
         request.headerNames.each { String name ->
 
             String value = request.getHeader(name)
-            HttpHeader httpHeader = new HttpHeader(name, value)
+            DefaultHttpHeader httpHeader = new DefaultHttpHeader(name, value)
             addMatchableHeader(pattern, httpHeader)
         }
         
