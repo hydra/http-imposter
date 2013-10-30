@@ -7,5 +7,5 @@ interface HttpHeader extends Comparable {
     // used by HttpHeaderFactory to create appropriate instances of HttpHeader
     String getType()
 
-    boolean compareValue(String otherValue)
+    int compareValue(String otherValue)
 }

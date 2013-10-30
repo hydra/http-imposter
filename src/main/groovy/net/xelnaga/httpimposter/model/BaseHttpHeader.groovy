@@ -3,23 +3,6 @@ package net.xelnaga.httpimposter.model
 abstract class BaseHttpHeader implements HttpHeader {
 
     @Override
-    int compareTo(Object obj) {
-
-        if (!(obj instanceof HttpHeader)) {
-            return 1
-        }
-
-        HttpHeader that = (HttpHeader) obj
-
-        int result = name.compareToIgnoreCase(that.name)
-        if (result != 0) {
-            return result
-        }
-
-        return value.compareTo(that.value)
-    }
-
-    @Override
     boolean equals(Object obj) {
 
         if (this.is(obj)) {
@@ -32,12 +15,11 @@ abstract class BaseHttpHeader implements HttpHeader {
 
         HttpHeader that = (HttpHeader) obj
 
-        return name.equalsIgnoreCase(that.name) && compareValue(that.value)
+        return name.equalsIgnoreCase(that.name) && type == that.type && value == that.value
     }
 
     @Override
     int hashCode() {
-
         int result = name.toLowerCase().hashCode()
         return 31 * result + value.hashCode()
     }

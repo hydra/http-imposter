@@ -2,7 +2,6 @@ package net.xelnaga.httpimposter.printer
 
 import net.xelnaga.httpimposter.model.HttpHeader
 import net.xelnaga.httpimposter.model.RequestPattern
-import net.xelnaga.httpimposter.model.DefaultHttpHeader
 
 class RequestPrinter {
 

@@ -7,7 +7,7 @@ import org.apache.commons.codec.binary.Base64
 class ResponsePreset {
 
     int status
-    Set<DefaultHttpHeader> headers = [] as TreeSet
+    Set<HttpHeader> headers = [] as TreeSet
     String body
 
     byte[] getBodyAsByteArray() {

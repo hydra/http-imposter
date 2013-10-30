@@ -1,9 +1,11 @@
 package net.xelnaga.httpimposter.model
 
 import spock.lang.Specification
+import spock.lang.Unroll
 
 class HttpHeaderSpec extends Specification {
 
+    @Unroll
     def 'equals and hashcode'() {
     
         given:
@@ -40,7 +42,47 @@ class HttpHeaderSpec extends Specification {
         expect:
             !httpHeader.equals(value)
     }
-    
+
+    def 'equals with identical implementations and matching values (default)'() {
+        given:
+            def obj1 = new DefaultHttpHeader('name', 'expression')
+            def obj2 = new DefaultHttpHeader('name', 'expression')
+
+        expect:
+            obj1.equals(obj2)
+            obj2.equals(obj1)
+    }
+
+    def 'equals with identical implementations and matching values (regex)'() {
+        given:
+            def obj1 = new RegexMatchingHttpHeader('name', 'expression')
+            def obj2 = new RegexMatchingHttpHeader('name', 'expression')
+
+        expect:
+            obj1.equals(obj2)
+            obj2.equals(obj1)
+    }
+
+    def 'equals with different implementations and matching values'() {
+        given:
+            def obj1 = new RegexMatchingHttpHeader('name', 'expression')
+            def obj2 = new DefaultHttpHeader('name', 'expression')
+
+        expect:
+            !obj1.equals(obj2)
+            !obj2.equals(obj1)
+    }
+
+    def 'compareTo using different instances'() {
+        given:
+            def obj1 = new RegexMatchingHttpHeader('name', 'expression')
+            def obj2 = new DefaultHttpHeader('name', 'expression')
+
+        expect:
+            obj1.compareTo(obj2) == 0
+            obj2.compareTo(obj1) != 0
+    }
+
     def 'to string'() {
         
         given:
@@ -50,14 +92,14 @@ class HttpHeaderSpec extends Specification {
             httpHeader.toString() == 'Some-Name: some-value'
     }
     
-    def 'compare to'() {
+    def 'compare to (default)'() {
         
         given:
             List<HttpHeader> headers = [
-                    new DefaultHttpHeader('Content-Type', 'text/plain'),
-                    new DefaultHttpHeader('content-type', 'text/plain'),
-                    new DefaultHttpHeader('Accept', 'application/json'),
-                    new DefaultHttpHeader('Accept', 'text/plain')
+                new DefaultHttpHeader('Content-Type', 'text/plain'),
+                new DefaultHttpHeader('content-type', 'text/plain'),
+                new DefaultHttpHeader('Accept', 'application/json'),
+                new DefaultHttpHeader('Accept', 'text/plain')
             ]
         
         when:
@@ -69,4 +111,24 @@ class HttpHeaderSpec extends Specification {
         then:
             treeSet as List == [ headers[2], headers[3], headers[1] ]
     }
+
+    def 'compare to (regex)'() {
+        given:
+            List<HttpHeader> headers = [
+                new RegexMatchingHttpHeader('Content-Type', 'text/plain'),
+                new RegexMatchingHttpHeader('content-type', 'text/plain'),
+                new RegexMatchingHttpHeader('Accept', 'application/json'),
+                new RegexMatchingHttpHeader('Accept', 'text/plain')
+            ]
+
+        when:
+            TreeSet<HttpHeader> treeSet = [] as TreeSet
+            headers.each { HttpHeader httpHeader ->
+                treeSet << httpHeader
+            }
+
+        then:
+            treeSet as List == [ headers[2], headers[3], headers[1] ]
+    }
+
 }

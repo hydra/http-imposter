@@ -1,7 +1,7 @@
 package net.xelnaga.httpimposter.printer
 
+import net.xelnaga.httpimposter.model.HttpHeader
 import net.xelnaga.httpimposter.model.ResponsePreset
-import net.xelnaga.httpimposter.model.DefaultHttpHeader
 
 class ResponsePrinter {
 
@@ -11,7 +11,7 @@ class ResponsePrinter {
 
         if (response.headers.size() > 0) {
             output += '\n'
-            response.headers.each { DefaultHttpHeader header ->
+            response.headers.each { HttpHeader header ->
                 output += header.name.toLowerCase() + ': ' + header.value + '\n'
             }
         }

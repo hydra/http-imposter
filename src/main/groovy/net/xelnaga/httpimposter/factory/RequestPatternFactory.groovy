@@ -2,7 +2,6 @@ package net.xelnaga.httpimposter.factory
 
 import net.xelnaga.httpimposter.filter.HttpHeaderFilter
 import net.xelnaga.httpimposter.filter.PassThroughFilter
-import net.xelnaga.httpimposter.model.DefaultHttpHeader
 import net.xelnaga.httpimposter.model.HttpHeader
 import net.xelnaga.httpimposter.model.RequestPattern
 
@@ -11,6 +10,7 @@ import javax.servlet.http.HttpServletRequest
 class RequestPatternFactory {
 
     HttpHeaderFilter filter = new PassThroughFilter()
+    HttpHeaderFactory headerFactory = new TypeResolvingHeaderFactory()
 
     RequestPattern fromHttpRequest(HttpServletRequest request) {
 
@@ -27,7 +27,8 @@ class RequestPatternFactory {
         request.headerNames.each { String name ->
 
             String value = request.getHeader(name)
-            DefaultHttpHeader httpHeader = new DefaultHttpHeader(name, value)
+            Map headerMap = [name: name, value: value]
+            HttpHeader httpHeader = headerFactory.makeHeader(headerMap)
             addMatchableHeader(pattern, httpHeader)
         }
         

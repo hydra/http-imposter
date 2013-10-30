@@ -4,10 +4,13 @@ import com.google.gson.TypeAdapter
 import com.google.gson.stream.JsonReader
 import com.google.gson.stream.JsonToken
 import com.google.gson.stream.JsonWriter
-import net.xelnaga.httpimposter.model.DefaultHttpHeader
+import net.xelnaga.httpimposter.factory.HttpHeaderFactory
+import net.xelnaga.httpimposter.factory.TypeResolvingHeaderFactory
 import net.xelnaga.httpimposter.model.HttpHeader
 
 class HttpHeaderAdapter extends TypeAdapter<HttpHeader> {
+
+    HttpHeaderFactory headerFactory = new TypeResolvingHeaderFactory()
 
     public HttpHeader read(JsonReader reader) throws IOException {
         if (reader.peek() == JsonToken.NULL) {
@@ -17,7 +20,8 @@ class HttpHeaderAdapter extends TypeAdapter<HttpHeader> {
 
         Map params = generateParams(reader)
         validateParams(params)
-        return new DefaultHttpHeader(params.name, params.value)
+        HttpHeader httpHeader = headerFactory.makeHeader(params)
+        return httpHeader
     }
 
     private Map generateParams(JsonReader reader) {
@@ -25,12 +29,17 @@ class HttpHeaderAdapter extends TypeAdapter<HttpHeader> {
 
         reader.beginObject()
 
-        addNextParam(reader, params)
-        addNextParam(reader, params)
+        addAllParams(reader, params)
 
         reader.endObject()
 
         return params
+    }
+
+    private void addAllParams(JsonReader reader, Map params) {
+        while(reader.hasNext()) {
+            addNextParam(reader, params)
+        }
     }
 
     private void addNextParam(JsonReader reader, Map params) {
@@ -55,6 +64,8 @@ class HttpHeaderAdapter extends TypeAdapter<HttpHeader> {
         writer.value(header.name)
         writer.name('value')
         writer.value(header.value)
+        writer.name('type')
+        writer.value(header.type)
         writer.endObject()
     }
 }
